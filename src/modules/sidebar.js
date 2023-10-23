@@ -1,4 +1,4 @@
-import createProject from "./createProject";
+import displayProject from "./controller";
 
 
 function createSidebar(){
@@ -62,12 +62,7 @@ projectTitlesDiv.appendChild(form);
 const listProjectsUl = document.createElement("ul");
 listProjectsUl.setAttribute("id", "list-projects");
 
-plusButton.addEventListener("click", () => {
-  listProjectsUl.appendChild(createProject());
-  
-})
-
-
+displayProject();
 
 // Create list items for projects
 
