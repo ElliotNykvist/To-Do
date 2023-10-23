@@ -1,4 +1,5 @@
 import createSideBar from './modules/sidebar';
+import createMain from './modules/main';
 
 
 const content = document.querySelector(".content");
@@ -20,6 +21,7 @@ function createTheDom() {
 
   content.appendChild(createHeader());
   content.appendChild(createSideBar());
+  content.appendChild(createMain());
 
 }
 
