@@ -1,0 +1,530 @@
+body {
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  margin: 0px;
+  padding: 0px;
+
+  
+    
+}
+
+.content {
+  margin: 0;
+  padding: 0;
+  grid-template-columns: 300px auto auto auto auto auto;
+  grid-template-rows: 1fr 8fr;
+  display: grid;
+  grid-template-areas: 
+  "header header header header header header"
+  "sidebar main main main main main";
+  
+
+}
+.title {
+  margin-left: 50px;
+}
+
+#header {
+  grid-area: header;
+  background-color: rgb(62, 119, 95);
+  color: rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.75);
+    clip-path: inset(0px -2px -20px 0px);
+}
+
+#sidebar {
+  grid-area: sidebar;
+  background-color: rgb(255, 255, 255);
+  padding: 20px;
+  height: 100vh;
+  box-shadow: 0px 0 15px rgba(0, 0, 0, 0.75);
+  clip-path: inset(0 -20px 0 0);
+
+}
+
+#main {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  align-items: center;
+  background-color: rgb(236, 236, 236);
+
+}
+
+.project-title {
+  margin: 0;
+  margin-top: 60px;
+  text-decoration: underline;
+}
+
+.add-task {
+  border: none;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 20px;
+  background-color: transparent;
+}
+
+ul {
+  margin-top: 60px;
+}
+
+li {
+  font-size: 28px;
+  font-weight: 700;
+  list-style: none;
+  margin: 28px;
+}
+
+#project-titles {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+ul#list-projects {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+
+
+h2 {
+  font-size: 28px;
+}
+
+.form-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 50px;
+}
+
+
+
+.form-input input {
+  width: 90%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #ffffff;
+  margin: 0;
+  border: none;
+  border-bottom: 2px solid #000000;
+  outline: none;
+  background: transparent;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  padding: 10px;
+
+}
+
+
+
+
+.btn-list {
+  border: none;
+  background: transparent;
+  font-size: 30px;
+  font-weight: 800;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0px; 
+  margin-right: 10px;
+}
+
+.border {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Ensure the form is above other elements */
+  opacity: 1;
+  visibility: visible;
+}
+
+.border.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.add-task-form {
+  background-color: rgb(255, 255, 255);
+  border: solid 3px black;
+  padding: 30px;
+  border-radius: 6px;
+  margin: 60px;
+
+}
+
+
+.add-task-form div {
+  margin: 10px;
+}
+
+/* Styling for the form inside the container */
+
+.border2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Ensure the form is above other elements */
+  opacity: 0;
+  visibility: hidden;
+  }
+  
+.border2.form.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+label {
+  display: flex;
+  align-items:center;
+}
+
+
+.border2 form {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  background-color: rgb(255, 255, 255);
+  border: solid 3px black;
+  border-radius: 6px;
+}
+.importants {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.inline {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-right: 40px;
+}
+
+.importants div {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  align-items: center;
+}
+
+.buttonsToDo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+#Title {
+  padding: 10px 0;
+  font-size: 16px;
+  color: #000000;
+  border: none;
+  border-bottom: 2px solid #000000;
+  outline: none;
+  background: rgb(255, 255, 255);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  padding: 10px;
+}
+
+#information {
+  padding: 10px 0;
+  font-size: 16px;
+  color: #000000;
+  border: none;
+  border-bottom: 2px solid #000000;
+  outline: none;
+  background: rgb(255, 255, 255);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  padding: 10px;
+
+}
+
+#information:focus {
+  background-color: rgb(216, 216, 216);
+  color: rgb(0, 0, 0);
+}
+
+#Title:focus {
+  background-color: rgb(216, 216, 216);
+  color: rgb(0, 0, 0);
+}
+
+#new-todo-date {
+  padding: 10px 0;
+  font-size: 16px;
+  color: #000000;
+  border: none;
+  border-bottom: 2px solid #000000;
+  outline: none;
+  background-color: rgb(255, 255, 255);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  padding: 10px;
+}
+
+#new-todo-date:focus {
+  background-color: rgb(216, 216, 216);
+  color: rgb(0, 0, 0);
+}
+
+
+
+label {
+  font-weight: 800;
+}
+
+input[type="radio"] {
+  border: 1px solid black;
+  width: 1.5em;
+  height: 1.5em;
+ 
+}
+
+.importants label {
+  margin-top: 10px;
+}
+
+.btn {
+  width: 100px;
+  height: 40px;
+  border-radius: 2px;
+  font-size: 20px;
+}
+
+#addToDO {
+  background-color: rgb(62, 119, 95);
+  color: rgb(255, 255, 255);
+
+}
+
+#cancelToDO {
+  background-color: rgb(117, 65, 65);
+  color: white;
+}
+
+#updateToDo {
+  background-color: rgb(62, 119, 95);
+  color: rgb(255, 255, 255);
+
+}
+
+#deleteToDo {
+  background-color: rgb(117, 65, 65);
+  color: white;
+
+}
+
+.new-list:focus {
+  background-color: rgb(236, 236, 236);
+  color: rgb(0, 0, 0);
+}
+
+.active-list {
+  text-decoration: underline;
+}
+
+.input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
+}
+
+.input input {
+  width: 60%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #000000;
+  margin: 0;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: none;
+  border-bottom: 2px solid #000000;
+  outline: none;
+  background: transparent;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  padding: 10px;
+}
+
+.input:focus {
+  background-color:rgb(236, 236, 236);
+  color: rgb(0, 0, 0);
+}
+
+
+
+.top-add-task {
+  display: flex;
+  justify-content: space-between;
+}
+
+.new-project {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#x-margin {
+  margin-top: 10px;
+  margin-left: 15px;
+  font-size: 20px;
+}
+
+.buttons-project {
+  display: flex;
+  gap: 20px;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.small-btn {
+  width: 75px;
+  height: 30px;
+  border-radius: 6px;
+  border: none;
+
+}
+
+#rename {
+  background-color:  rgb(62, 119, 95);
+  color: rgb(255, 255, 255);
+}
+
+#delete {
+  background-color: rgb(117, 65, 65);
+  color: white;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.small-btn:active {
+  border: 1px solid black;
+}
+
+#tasks {
+  grid-auto-rows: auto;
+  gap: 10px;
+  margin:80px;
+  padding: 10px;
+  width: 80%;
+}
+
+
+.task {
+  border-radius: 5px;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin: 10px;
+}
+
+
+.task-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.task p {
+  
+  display: flex;
+  align-items: center;
+  color: black;
+  font-weight: 600;
+  font-size: 12px;
+  margin: 0;
+}
+
+
+
+#low {
+  border: 2px solid rgb(62, 119, 95);
+}
+
+#medium {
+  border: 2px solid rgb(199, 186, 86);
+}
+
+
+
+#high {
+  border: 2px solid  rgb(117, 65, 65);
+
+}
+
+ul#list-projects {
+  padding: 15px;
+  margin: 0;
+}
+
+#list-projects li {
+ width: 100%;
+ margin: 16px;
+
+}
+
+.project{
+  display: flex;
+  font-size: 28px;
+  font-weight: 500;
+  justify-content: space-between;
+  visibility: visible;
+
+}
+
+#active-project {
+  border: 2px solid black;
+  border-radius: 4px;
+  padding: 10px;
+  padding-top: 0;
+
+
+}
+
+input:invalid {
+  border: red;
+
+}
+
+.task-title span {
+  font-size: 14px;
+}
+
+.fa-solid {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  
+}
+
