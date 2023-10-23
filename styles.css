@@ -152,8 +152,8 @@ h2 {
   width: 100%;
   height: 100%;
   z-index: 1; /* Ensure the form is above other elements */
-  opacity: 1;
-  visibility: visible;
+  opacity: 0;
+  visibility: hidden;
 }
 
 .border.active {
