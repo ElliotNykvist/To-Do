@@ -1,7 +1,8 @@
 export class Task {
-  constructor(title, dueDate) {
+  constructor(title, dueDate, radio) {
     this._title = title;
     this._dueDate = dueDate;
+    this._radio = radio;
 
 
   }
@@ -26,4 +27,15 @@ export class Task {
       this._dueDate.push(value);
     }
   }
+
+  get radio() {
+    return this._radio;
+  }
+
+  set radio(value) {
+    if(value) {
+      this._radio = radio;
+    }
+  }
+
 }
