@@ -438,14 +438,18 @@ button:hover {
   margin:80px;
   padding: 10px;
   width: 80%;
+  border: 1px solid red;
 }
 
 
 .task {
   border-radius: 5px;
+  border: 1px solid black;
+  background-color: #ffffff;
   height: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   padding: 10px;
   margin: 10px;
 }
