@@ -119,6 +119,7 @@ function createSidebar() {
   sidebarDiv.appendChild(projectTitlesDiv);
   sidebarDiv.appendChild(listProjectsUl);
 
+
   return sidebarDiv;
 }
 
@@ -337,14 +338,9 @@ function displayTasks(project) {
   cancelButton.type = "button";
   cancelButton.textContent = "Cancel";
 
-  addButton.addEventListener("click", () => {
-    handleAddTaskClick(project);
-    border.classList.remove("active");
-  });
+  
 
-  cancelButton.addEventListener("click", () => {
-    border.classList.remove("active");
-  });
+
 
   topAddTask.appendChild(formTitle);
   topAddTask.appendChild(closeFormBtn);
@@ -364,10 +360,24 @@ function displayTasks(project) {
   borderDiv.appendChild(form1);
   border.appendChild(borderDiv);
 
+  const taskDiv = document.createElement("div");
+	taskDiv.setAttribute("id", "tasks");
+
   main.appendChild(projectTitle);
   main.appendChild(addTaskBtn);
   main.appendChild(border);
-  
+  main.appendChild(taskDiv);
+
+  addButton.addEventListener("click", () => {
+    border.classList.remove("active");
+    handleAddTaskClick(project);
+  });
+
+  cancelButton.addEventListener("click", () => {
+    border.classList.remove("active");
+  });
+
+  showProjectTasks(project); // Show the tasks for the project
   return main;
 }
 
@@ -389,17 +399,21 @@ function handleAddTaskClick(project) {
   }
 
   const task = new Task(taskTitle, dueDate, radio);
-  addTask(project, task);
-  showTasks(project);
+  project.addTask(task); // Assuming you have a project instance
+  showProjectTasks(project)
+   logProjectTasks(project); // Log the tasks
 }
 
-function addTask(project, task) {
-  project.addTask(task);
+// Add this function to log the tasks
+function logProjectTasks(project) {
+  console.log("Tasks for project:", project.title);
+  project.tasks.forEach((task) => {
+    console.log("Task:", task.title, "Due Date:", task.dueDate, "Priority:", task.radio);
+  });
 }
-
-function showTasks(project) {
-  const tasks = document.getElementById("tasks");
-  tasks.innerHTML = "";
+function showProjectTasks(project) {
+  const tasksDiv = document.getElementById("tasks");
+  tasksDiv.innerHTML = ""; // Clear the existing tasks
 
   project.tasks.forEach((task) => {
     const listItem = document.createElement("div");
@@ -421,14 +435,136 @@ function showTasks(project) {
     const taskSettings = document.createElement("i");
     taskSettings.classList.add("fas", "fa-ellipsis-vertical");
 
+    taskSettings.addEventListener("click", () => {
+      
+    });
+
     taskTitleDiv.appendChild(taskTitle);
     taskDueDate.appendChild(taskTime);
     taskTitleDiv.appendChild(taskDueDate);
     taskTitleDiv.appendChild(taskSettings);
 
     listItem.appendChild(taskTitleDiv);
-    tasks.appendChild(listItem);
+    tasksDiv.appendChild(listItem);
   });
 }
+
+function createTaskSettingForm(project) {
+  const border2 = document.createElement("div");
+  border2.classList.add("border2");
+
+  const borderDiv = document.createElement("div");
+  borderDiv.classList.add("add-task-form");
+
+  const form1 = document.createElement("form");
+  form1.setAttribute("id", "task-form");
+
+  const topAddTask = document.createElement("div");
+  topAddTask.classList.add("top-add-task");
+
+  const formTitle = document.createElement("h4");
+  formTitle.textContent = "Add Task";
+
+  const closeFormBtn = document.createElement("i");
+  closeFormBtn.classList.add("fas", "fa-times");
+
+  closeFormBtn.addEventListener("click", () => {
+    border2.classList.remove("active");
+  });
+
+  const titleInput = document.createElement("input");
+  titleInput.type = "text";
+  titleInput.id = "Title";
+  titleInput.name = "Title";
+  titleInput.placeholder = "Title";
+  titleInput.maxLength = 25;
+
+  const dueDateDiv = document.createElement("div");
+  dueDateDiv.classList.add("inline");
+
+  const dueDateLabel = document.createElement("label");
+  dueDateLabel.htmlFor = "new-todo-date";
+  dueDateLabel.textContent = "Due Date";
+
+  const dueDateInput = document.createElement("input");
+  dueDateInput.type = "date";
+  dueDateInput.classList.add("create-new__date-input");
+  dueDateInput.id = "new-todo-date";
+  dueDateInput.name = "new-todo";
+  dueDateInput.required = true;
+
+  const priorityDiv = document.createElement("div");
+  priorityDiv.classList.add("inline");
+
+  const priorityLabel = document.createElement("label");
+  priorityLabel.htmlFor = "priority";
+  priorityLabel.textContent = "Priority";
+
+  const importantsDiv = document.createElement("div");
+  importantsDiv.classList.add("importants");
+
+  const priorityOptions = ["low", "medium", "high"];
+  for (const option of priorityOptions) {
+    const radioInput = document.createElement("input");
+    radioInput.type = "radio";
+    radioInput.id = option;
+    radioInput.name = "priority";
+    radioInput.value = option;
+    radioInput.classList.add("radio");
+    if (option === "low") {
+      radioInput.checked = true;
+    }
+
+    const radioLabel = document.createElement("label");
+    radioLabel.htmlFor = option;
+    radioLabel.textContent = option.charAt(0).toUpperCase() + option.slice(1);
+
+    const radioDiv = document.createElement("div");
+    radioDiv.appendChild(radioInput);
+    radioDiv.appendChild(radioLabel);
+
+    importantsDiv.appendChild(radioDiv);
+  }
+
+  const buttonsDiv = document.createElement("div");
+  buttonsDiv.classList.add("buttonsToDo");
+
+  const updateButton = document.createElement("button");
+  updateButton.classList.add("btn");
+  updateButton.id = "rename";
+  updateButton.type = "button";
+  updateButton.textContent = "Update";
+
+  const deleteButton = document.createElement("button");
+  deleteButton.classList.add("btn");
+  deleteButton.id = "delete";
+  deleteButton.type = "button";
+  deleteButton.textContent = "Delete";
+
+  
+
+
+
+  topAddTask.appendChild(formTitle);
+  topAddTask.appendChild(closeFormBtn);
+  dueDateDiv.appendChild(dueDateLabel);
+  dueDateDiv.appendChild(dueDateInput);
+  priorityDiv.appendChild(priorityLabel);
+  priorityDiv.appendChild(importantsDiv);
+  buttonsDiv.appendChild(updateButton);
+  buttonsDiv.appendChild(deleteButton);
+
+  form1.appendChild(topAddTask);
+  form1.appendChild(titleInput);
+  form1.appendChild(dueDateDiv);
+  form1.appendChild(priorityDiv);
+  form1.appendChild(buttonsDiv);
+
+  borderDiv.appendChild(form1);
+  border2.appendChild(borderDiv);
+
+  return border2;
+} 
+
 
 export default createSidebar;
