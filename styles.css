@@ -191,12 +191,12 @@ h2 {
   z-index: 1; /* Ensure the form is above other elements */
   opacity: 0;
   visibility: hidden;
-  }
-  
-.border2.form.active {
-    opacity: 1;
-    visibility: visible;
-  }
+}
+
+.border2.active {
+  opacity: 1;
+  visibility: visible;
+}
 
 label {
   display: flex;
@@ -204,14 +204,8 @@ label {
 }
 
 
-.border2 form {
-  display: flex;
-  flex-direction: column;
-  padding: 40px;
-  background-color: rgb(255, 255, 255);
-  border: solid 3px black;
-  border-radius: 6px;
-}
+
+
 .importants {
   display: flex;
   justify-content: center;
