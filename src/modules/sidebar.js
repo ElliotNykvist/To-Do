@@ -232,6 +232,7 @@ function displayProjects() {
 }
 
 function displayTasks(project) {
+
   const main = document.getElementById("main");
   main.innerHTML = "";
 
@@ -267,6 +268,7 @@ function displayTasks(project) {
 
   closeFormBtn.addEventListener("click", () => {
     border.classList.remove("active");
+    form1.reset();
   });
 
   const titleInput = document.createElement("input");
@@ -338,9 +340,6 @@ function displayTasks(project) {
   cancelButton.type = "button";
   cancelButton.textContent = "Cancel";
 
-  
-
-
 
   topAddTask.appendChild(formTitle);
   topAddTask.appendChild(closeFormBtn);
@@ -371,13 +370,18 @@ function displayTasks(project) {
   addButton.addEventListener("click", () => {
     border.classList.remove("active");
     handleAddTaskClick(project);
+    form1.reset();
   });
+
 
   cancelButton.addEventListener("click", () => {
     border.classList.remove("active");
+    form1.reset();
   });
 
+
   showProjectTasks(project); // Show the tasks for the project
+
   return main;
 }
 
@@ -415,10 +419,10 @@ function showProjectTasks(project) {
   const tasksDiv = document.getElementById("tasks");
   tasksDiv.innerHTML = ""; // Clear the existing tasks
 
-  project.tasks.forEach((task) => {
+  project.tasks.forEach((task, index) => {
     const listItem = document.createElement("div");
     listItem.classList.add("task");
-    listItem.setAttribute("id", task.dueDate);
+    listItem.setAttribute("id", task.radio);
 
     const taskTitleDiv = document.createElement("div");
     taskTitleDiv.classList.add("task-title");
@@ -436,135 +440,157 @@ function showProjectTasks(project) {
     taskSettings.classList.add("fas", "fa-ellipsis-vertical");
 
     taskSettings.addEventListener("click", () => {
+      const main = document.getElementById("main");
+      const border2 = document.createElement("div");
+      border2.classList.add("border2");
+
+      const borderDiv = document.createElement("div");
+      borderDiv.classList.add("add-task-form");
+
+      const form1 = document.createElement("form");
+      form1.setAttribute("id", "task-form");
+
+      const topAddTask = document.createElement("div");
+      topAddTask.classList.add("top-add-task");
+
+      const formTitle = document.createElement("h4");
+      formTitle.textContent = "Edit Task";
+
+      const closeFormBtn = document.createElement("i");
+      closeFormBtn.classList.add("fas", "fa-times");
+
+      closeFormBtn.addEventListener("click", () => {
+      border2.classList.remove("active");
+      form1.reset();
+      });
+
+      const titleInput = document.createElement("input");
+      titleInput.type = "text";
+      titleInput.id = "Title";
+      titleInput.name = "Title";
+      titleInput.placeholder = "Title";
+      titleInput.maxLength = 25;
+      titleInput.value = task.title;
+
+      const dueDateDiv = document.createElement("div");
+      dueDateDiv.classList.add("inline");
+
+      const dueDateLabel = document.createElement("label");
+      dueDateLabel.htmlFor = "new-todo-date";
+      dueDateLabel.textContent = "Due Date";
+
+      const dueDateInput = document.createElement("input");
+      dueDateInput.type = "date";
+      dueDateInput.classList.add("create-new__date-input");
+      dueDateInput.id = "new-todo-date";
+      dueDateInput.name = "new-todo";
+      dueDateInput.required = true;
+      dueDateInput.value = task.dueDate;
+
+      const priorityDiv = document.createElement("div");
+      priorityDiv.classList.add("inline");
+
+      const priorityLabel = document.createElement("label");
+      priorityLabel.htmlFor = "priority";
+      priorityLabel.textContent = "Priority";
+
+      const importantsDiv = document.createElement("div");
+      importantsDiv.classList.add("importants");
+
+      const priorityOptions = ["low", "medium", "high"];
+      for (const option of priorityOptions) {
+        const radioInput = document.createElement("input");
+        radioInput.type = "radio";
+        radioInput.id = option;
+        radioInput.name = "priority";
+        radioInput.value = option;
+        radioInput.classList.add("radio");
+
+        if (option === task.radio) {
+          radioInput.checked = true; // Set the radio input as checked for the task's current priority
+        }
+
+        const radioLabel = document.createElement("label");
+        radioLabel.htmlFor = option;
+        radioLabel.textContent = option.charAt(0).toUpperCase() + option.slice(1);
+
+        const radioDiv = document.createElement("div");
+        radioDiv.appendChild(radioInput);
+        radioDiv.appendChild(radioLabel);
+
+        importantsDiv.appendChild(radioDiv);
+      }
+
+      const buttonsDiv = document.createElement("div");
+      buttonsDiv.classList.add("buttonsToDo");
+
+      const updateButton = document.createElement("button");
+      updateButton.classList.add("btn");
+      updateButton.id = "rename";
+      updateButton.type = "button";
+      updateButton.textContent = "Update";
+
+      const deleteButton = document.createElement("button");
+      deleteButton.classList.add("btn");
+      deleteButton.id = "delete";
+      deleteButton.type = "button";
+      deleteButton.textContent = "Delete";
+
+      deleteButton.addEventListener("click", () => {
+        project.tasks.splice(index, 1);
+        listItem.remove();
+        border2.classList.remove("active");
+      });
+
+
+      updateButton.addEventListener("click", () => {
+        task.title = titleInput.value.trim();
+        task.dueDate = dueDateInput.value;
       
-    });
-
-    taskTitleDiv.appendChild(taskTitle);
-    taskDueDate.appendChild(taskTime);
-    taskTitleDiv.appendChild(taskDueDate);
-    taskTitleDiv.appendChild(taskSettings);
-
-    listItem.appendChild(taskTitleDiv);
-    tasksDiv.appendChild(listItem);
-  });
-}
-
-function createTaskSettingForm(project) {
-  const border2 = document.createElement("div");
-  border2.classList.add("border2");
-
-  const borderDiv = document.createElement("div");
-  borderDiv.classList.add("add-task-form");
-
-  const form1 = document.createElement("form");
-  form1.setAttribute("id", "task-form");
-
-  const topAddTask = document.createElement("div");
-  topAddTask.classList.add("top-add-task");
-
-  const formTitle = document.createElement("h4");
-  formTitle.textContent = "Add Task";
-
-  const closeFormBtn = document.createElement("i");
-  closeFormBtn.classList.add("fas", "fa-times");
-
-  closeFormBtn.addEventListener("click", () => {
-    border2.classList.remove("active");
-  });
-
-  const titleInput = document.createElement("input");
-  titleInput.type = "text";
-  titleInput.id = "Title";
-  titleInput.name = "Title";
-  titleInput.placeholder = "Title";
-  titleInput.maxLength = 25;
-
-  const dueDateDiv = document.createElement("div");
-  dueDateDiv.classList.add("inline");
-
-  const dueDateLabel = document.createElement("label");
-  dueDateLabel.htmlFor = "new-todo-date";
-  dueDateLabel.textContent = "Due Date";
-
-  const dueDateInput = document.createElement("input");
-  dueDateInput.type = "date";
-  dueDateInput.classList.add("create-new__date-input");
-  dueDateInput.id = "new-todo-date";
-  dueDateInput.name = "new-todo";
-  dueDateInput.required = true;
-
-  const priorityDiv = document.createElement("div");
-  priorityDiv.classList.add("inline");
-
-  const priorityLabel = document.createElement("label");
-  priorityLabel.htmlFor = "priority";
-  priorityLabel.textContent = "Priority";
-
-  const importantsDiv = document.createElement("div");
-  importantsDiv.classList.add("importants");
-
-  const priorityOptions = ["low", "medium", "high"];
-  for (const option of priorityOptions) {
-    const radioInput = document.createElement("input");
-    radioInput.type = "radio";
-    radioInput.id = option;
-    radioInput.name = "priority";
-    radioInput.value = option;
-    radioInput.classList.add("radio");
-    if (option === "low") {
-      radioInput.checked = true;
-    }
-
-    const radioLabel = document.createElement("label");
-    radioLabel.htmlFor = option;
-    radioLabel.textContent = option.charAt(0).toUpperCase() + option.slice(1);
-
-    const radioDiv = document.createElement("div");
-    radioDiv.appendChild(radioInput);
-    radioDiv.appendChild(radioLabel);
-
-    importantsDiv.appendChild(radioDiv);
-  }
-
-  const buttonsDiv = document.createElement("div");
-  buttonsDiv.classList.add("buttonsToDo");
-
-  const updateButton = document.createElement("button");
-  updateButton.classList.add("btn");
-  updateButton.id = "rename";
-  updateButton.type = "button";
-  updateButton.textContent = "Update";
-
-  const deleteButton = document.createElement("button");
-  deleteButton.classList.add("btn");
-  deleteButton.id = "delete";
-  deleteButton.type = "button";
-  deleteButton.textContent = "Delete";
+        // Find the selected radio input within the task's settings form
+        const selectedRadio = form1.querySelector("input[name='priority']:checked");
+        if (selectedRadio) {
+          task.radio = selectedRadio.value;
+        }
+      
+        border2.classList.remove("active");
+        showProjectTasks(project);
+      });
 
   
 
+      topAddTask.appendChild(formTitle);
+      topAddTask.appendChild(closeFormBtn);
+      dueDateDiv.appendChild(dueDateLabel);
+      dueDateDiv.appendChild(dueDateInput);
+      priorityDiv.appendChild(priorityLabel);
+      priorityDiv.appendChild(importantsDiv);
+      buttonsDiv.appendChild(updateButton);
+      buttonsDiv.appendChild(deleteButton);
 
+      form1.appendChild(topAddTask);
+      form1.appendChild(titleInput);
+      form1.appendChild(dueDateDiv);
+      form1.appendChild(priorityDiv);
+      form1.appendChild(buttonsDiv);
 
-  topAddTask.appendChild(formTitle);
-  topAddTask.appendChild(closeFormBtn);
-  dueDateDiv.appendChild(dueDateLabel);
-  dueDateDiv.appendChild(dueDateInput);
-  priorityDiv.appendChild(priorityLabel);
-  priorityDiv.appendChild(importantsDiv);
-  buttonsDiv.appendChild(updateButton);
-  buttonsDiv.appendChild(deleteButton);
+      borderDiv.appendChild(form1);
+      border2.appendChild(borderDiv);
 
-  form1.appendChild(topAddTask);
-  form1.appendChild(titleInput);
-  form1.appendChild(dueDateDiv);
-  form1.appendChild(priorityDiv);
-  form1.appendChild(buttonsDiv);
+      main.appendChild(border2);
+      border2.classList.add("active");
+      });
 
-  borderDiv.appendChild(form1);
-  border2.appendChild(borderDiv);
+      taskTitleDiv.appendChild(taskTitle);
+      taskDueDate.appendChild(taskTime);
+      taskTitleDiv.appendChild(taskDueDate);
+      taskTitleDiv.appendChild(taskSettings);
 
-  return border2;
-} 
+      listItem.appendChild(taskTitleDiv);
+      tasksDiv.appendChild(listItem);
+    });
+  }
+ 
 
 
 export default createSidebar;
