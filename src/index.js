@@ -20,8 +20,8 @@ function createHeader() {
 function createTheDom() {
 
   content.appendChild(createHeader());
-  content.appendChild(createSideBar());
   content.appendChild(createMain());
+  content.appendChild(createSideBar());
 
 }
 

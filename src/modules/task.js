@@ -1,19 +1,21 @@
-export class Task {
+class Task {
   constructor(title, dueDate, radio) {
+    this._id = Date.now();
     this._title = title;
     this._dueDate = dueDate;
     this._radio = radio;
-
-
   }
 
+  get id() {
+    return this._id;
+  }
 
   get title() {
     return this._title;
   }
 
   set title(value) {
-    if(value) {
+    if (value) {
       this._title = value;
     }
   }
@@ -24,7 +26,7 @@ export class Task {
 
   set dueDate(value) {
     if (value) {
-      this._dueDate.push(value);
+      this._dueDate = value;
     }
   }
 
@@ -33,9 +35,11 @@ export class Task {
   }
 
   set radio(value) {
-    if(value) {
-      this._radio = radio;
+    if (value) {
+      this._radio = value;
     }
   }
-
 }
+
+
+export default Task;

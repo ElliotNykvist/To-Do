@@ -526,3 +526,23 @@ input:invalid {
   
 }
 
+.titleDoneDiv {
+  width: 80px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#done {
+  width: 15px;
+  height: 15px;
+}
+
+.taskTitle {
+  text-decoration: line-through;
+  color: grey;
+}
+
+.time-done {
+  color: grey;
+}

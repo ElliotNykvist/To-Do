@@ -1,4 +1,4 @@
-export class Project {
+class Project {
   constructor(title) {
     this._title = title;
     this._tasks = [];
@@ -24,3 +24,5 @@ export class Project {
     }
   }
 }
+
+export default Project;

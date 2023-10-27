@@ -1,87 +1,69 @@
+import Project from './project';
+import Task from './task';
+
+
 const projects = [];
+const allTasks = [];
 
-class Project {
-  constructor(title) {
-    this._title = title;
-    this._tasks = [];
-  }
+const taskDiv = document.createElement("div");
+taskDiv.setAttribute("id", "tasks");
 
-  get title() {
-    return this._title;
-  }
-
-  set title(value) {
-    if (value) {
-      this._title = value;
-    }
-  }
-
-  get tasks() {
-    return this._tasks;
-  }
-
-  addTask(task) {
-    if (task) {
-      this._tasks.push(task);
-    }
-  }
-}
-
-class Task {
-  constructor(title, dueDate, radio) {
-    this._title = title;
-    this._dueDate = dueDate;
-    this._radio = radio;
-  }
-
-  get title() {
-    return this._title;
-  }
-
-  set title(value) {
-    if (value) {
-      this._title = value;
-    }
-  }
-
-  get dueDate() {
-    return this._dueDate;
-  }
-
-  set dueDate(value) {
-    if (value) {
-      this._dueDate = value;
-    }
-  }
-
-  get radio() {
-    return this._radio;
-  }
-
-  set radio(value) {
-    if (value) {
-      this._radio = value;
-    }
-  }
-}
 
 function createSidebar() {
+
   const sidebarDiv = document.createElement("div");
   sidebarDiv.setAttribute("id", "sidebar");
 
   const listUl = document.createElement("ul");
   listUl.setAttribute("id", "list");
 
-  const listItems = ["Tasks", "Today", "Week", "Month"];
+  const listItems = ["Tasks", "Today", "Week", "Month", "Year"];
   listItems.forEach(itemText => {
     const listItem = document.createElement("li");
     listItem.textContent = itemText;
-    if (itemText === "Tasks") {
-      listItem.classList.add("active-list");
-    }
+
     listUl.appendChild(listItem);
+
+    listItem.addEventListener("click", () => {
+      const main = document.getElementById("main");
+      main.innerHTML = "";
+
+      console.log(allTasks);
+
+      const listTitle = document.createElement("h1");
+      listTitle.classList.add("project-title");
+      listTitle.textContent = listItem.textContent;
+      main.appendChild(listTitle);
+      main.appendChild(taskDiv)
+
+      // Remove the "active-list" class from all list items
+      listUl.querySelectorAll("li").forEach(item => {
+        item.classList.remove("active-list");
+      });
+
+      // Add the "active-list" class to the clicked item
+      listItem.classList.add("active-list");
+
+      // Append the return value of showListTasks to main
+      if (itemText === "Tasks") {
+        taskDiv = showListTasks(allTasks);
+      } else if (itemText === "Today") {
+        taskDiv = showListTasks(allTasks, 'Today');
+      } else if (itemText === "Week") {
+        taskDiv = showListTasks(allTasks, 'Week');
+      } else if (itemText === "Month") {
+        taskDiv = showListTasks(allTasks, 'Month');
+      } else if (itemText === "Year") {
+        taskDiv = showListTasks(allTasks, 'Year');
+      }
+
+      if (taskDiv) {
+        main.appendChild(taskDiv);
+      }
+    });
   });
 
+  
   const projectTitlesDiv = document.createElement("div");
   projectTitlesDiv.setAttribute("id", "project-titles");
 
@@ -156,6 +138,19 @@ function displayProjects() {
     listItem.appendChild(projectDiv);
 
     projectSpan.addEventListener("click", () => {
+      // Remove the "active-list" class from all list items
+      document.querySelectorAll("li").forEach(item => {
+        item.classList.remove("active-list");
+      });
+  
+      // Remove the "active-list" class from all projectSpans
+      document.querySelectorAll("span").forEach(span => {
+        span.classList.remove("active-list");
+      });
+  
+      // Add the "active-list" class to the clicked projectSpan
+      projectSpan.classList.add("active-list");
+  
       displayTasks(project);
     });
 
@@ -359,8 +354,6 @@ function displayTasks(project) {
   borderDiv.appendChild(form1);
   border.appendChild(borderDiv);
 
-  const taskDiv = document.createElement("div");
-	taskDiv.setAttribute("id", "tasks");
 
   main.appendChild(projectTitle);
   main.appendChild(addTaskBtn);
@@ -404,17 +397,12 @@ function handleAddTaskClick(project) {
 
   const task = new Task(taskTitle, dueDate, radio);
   project.addTask(task); // Assuming you have a project instance
+  allTasks.push(task);
   showProjectTasks(project)
-   logProjectTasks(project); // Log the tasks
+
 }
 
-// Add this function to log the tasks
-function logProjectTasks(project) {
-  console.log("Tasks for project:", project.title);
-  project.tasks.forEach((task) => {
-    console.log("Task:", task.title, "Due Date:", task.dueDate, "Priority:", task.radio);
-  });
-}
+
 function showProjectTasks(project) {
   const tasksDiv = document.getElementById("tasks");
   tasksDiv.innerHTML = ""; // Clear the existing tasks
@@ -538,6 +526,14 @@ function showProjectTasks(project) {
 
       deleteButton.addEventListener("click", () => {
         project.tasks.splice(index, 1);
+
+        let allTasksIndex = allTasks.findIndex(t => t.title === task.title);
+
+    // Remove task from allTasks array
+        if (allTasksIndex !== -1) {
+          allTasks.splice(allTasksIndex, 1);
+        }
+
         listItem.remove();
         border2.classList.remove("active");
       });
@@ -590,7 +586,103 @@ function showProjectTasks(project) {
       tasksDiv.appendChild(listItem);
     });
   }
- 
 
+  function showListTasks(allTasks, filter) {
+    taskDiv.innerHTML = ""; // Clear the existing tasks
+  
+    let filteredTasks = allTasks;
+    // If there is a filter, apply it
+    if (filter) {
+      filteredTasks = filterTasks(allTasks, filter);
+    }
+  
+    filteredTasks.forEach((task) => {
+      const listItem = document.createElement("div");
+      listItem.classList.add("task");
+      listItem.setAttribute("id", task.radio);
+  
+      const taskTitleDiv = document.createElement("div");
+      taskTitleDiv.classList.add("task-title");
 
+      const titleDoneDiv = document.createElement("div");
+      titleDoneDiv.classList.add("titleDoneDiv");
+
+      const taskDone = document.createElement("input");
+      taskDone.type = "checkbox";
+      taskDone.id = "done";
+      taskDone.name = "done";
+      taskDone.classList.add("radioDone");
+
+  
+      const taskTitle = document.createElement("span");
+      taskTitle.textContent = task.title;
+
+      if (taskDone.checked) {
+        taskTitle.classList.add("taskTitle");
+      } else {
+        taskTitle.classList.remove("taskTitle");
+      }
+  
+      taskDone.addEventListener('change', () => {
+        if (taskDone.checked) {
+          taskTitle.classList.add("taskTitle");
+          taskTime.classList.add("time-done");
+        } else {
+          taskTitle.classList.remove("taskTitle");
+          taskTime.classList.remove("time-done");
+        }
+      });
+  
+
+      titleDoneDiv.appendChild(taskDone);
+      titleDoneDiv.appendChild(taskTitle);
+  
+      const taskDueDate = document.createElement("p");
+  
+      const taskTime = document.createElement("time");
+      taskTime.textContent = task.dueDate;
+  
+      taskDueDate.appendChild(taskTime);
+  
+      taskTitleDiv.appendChild(titleDoneDiv);
+      taskTitleDiv.appendChild(taskDueDate);
+  
+      listItem.appendChild(taskTitleDiv);
+      taskDiv.appendChild(listItem);
+    });
+  
+    return taskDiv;
+  }
+
+  function filterTasks(allTasks, filter) {
+    const today = new Date();
+    
+    return allTasks.filter(task => {
+      const taskDate = new Date(task.dueDate);
+  
+      const isSameDay = (date1, date2) => {
+        return date1.getDate() === date2.getDate() &&
+               date1.getMonth() === date2.getMonth() &&
+               date1.getFullYear() === date2.getFullYear();
+      };
+  
+      switch (filter) {
+        case 'Today':
+          return isSameDay(taskDate, today);
+        case 'Week':
+          const weekStart = new Date(today);
+          weekStart.setDate(today.getDate() - today.getDay()); // Start of the week (Sunday)
+          const weekEnd = new Date(weekStart);
+          weekEnd.setDate(weekStart.getDate() + 6); // End of the week (Saturday)
+          return taskDate >= weekStart && taskDate <= weekEnd;
+        case 'Month':
+          return taskDate.getMonth() === today.getMonth() && taskDate.getFullYear() === today.getFullYear();
+        case 'Year':
+          return taskDate.getFullYear() === today.getFullYear();
+        default:
+          return true; // No filter or 'All Tasks' filter
+      }
+    });
+  }
+  
 export default createSidebar;
