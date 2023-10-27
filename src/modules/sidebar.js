@@ -5,6 +5,8 @@ import Task from './task';
 const projects = [];
 const allTasks = [];
 
+
+
 const taskDiv = document.createElement("div");
 taskDiv.setAttribute("id", "tasks");
 
@@ -40,6 +42,10 @@ function createSidebar() {
       listUl.querySelectorAll("li").forEach(item => {
         item.classList.remove("active-list");
       });
+
+      const span = document.querySelectorAll("span").forEach(spanItem => {
+        spanItem.classList.remove("active-list");
+      })
 
       // Add the "active-list" class to the clicked item
       listItem.classList.add("active-list");
@@ -413,21 +419,64 @@ function showProjectTasks(project) {
     listItem.setAttribute("id", task.radio);
 
     const taskTitleDiv = document.createElement("div");
-    taskTitleDiv.classList.add("task-title");
+      taskTitleDiv.classList.add("task-title");
 
-    const taskTitle = document.createElement("span");
-    taskTitle.textContent = task.title;
+      const titleDoneDiv = document.createElement("div");
+      titleDoneDiv.classList.add("titleDoneDiv");
 
-    const taskDueDate = document.createElement("p");
+      const taskDone = document.createElement("input");
+      taskDone.type = "checkbox";
+      taskDone.id = "done";
+      taskDone.name = "done";
+      taskDone.classList.add("radioDone");
 
-    const taskTime = document.createElement("time");
-    taskTime.setAttribute("dueDate", task.dueDate);
-    taskTime.textContent = task.dueDate;
+  
+      const taskTitle = document.createElement("span");
+      taskTitle.textContent = task.title;
+
+      if (taskDone.checked) {
+        taskTitle.classList.add("taskTitle");
+      } else {
+        taskTitle.classList.remove("taskTitle");
+      }
+  
+      taskDone.addEventListener('change', () => {
+        if (taskDone.checked) {
+          taskTitle.classList.add("taskTitle");
+          taskTime.classList.add("time-done");
+          taskSettings.classList.add("time-done");
+        } else {
+          taskTitle.classList.remove("taskTitle");
+          taskTime.classList.remove("time-done");
+          taskSettings.classList.remove("time-done");
+          taskSettings.disabled = false;
+        }
+      });
+  
+
+  
+      const taskDueDate = document.createElement("p");
+  
+      const taskTime = document.createElement("time");
+      taskTime.textContent = task.dueDate;
+
+      titleDoneDiv.appendChild(taskDone);
+      titleDoneDiv.appendChild(taskTitle);
+      taskDueDate.appendChild(taskTime);
+  
+      taskTitleDiv.appendChild(titleDoneDiv);
+
+
 
     const taskSettings = document.createElement("i");
     taskSettings.classList.add("fas", "fa-ellipsis-vertical");
 
     taskSettings.addEventListener("click", () => {
+
+      if (taskDone.checked) {
+        return
+      }
+
       const main = document.getElementById("main");
       const border2 = document.createElement("div");
       border2.classList.add("border2");
@@ -577,8 +626,7 @@ function showProjectTasks(project) {
       border2.classList.add("active");
       });
 
-      taskTitleDiv.appendChild(taskTitle);
-      taskDueDate.appendChild(taskTime);
+      taskTitleDiv.appendChild(titleDoneDiv);
       taskTitleDiv.appendChild(taskDueDate);
       taskTitleDiv.appendChild(taskSettings);
 
@@ -683,6 +731,11 @@ function showProjectTasks(project) {
           return true; // No filter or 'All Tasks' filter
       }
     });
+  }
+
+
+  function localStorage() {
+    localStorage.setItem("")
   }
   
 export default createSidebar;
