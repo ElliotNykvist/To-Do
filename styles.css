@@ -546,3 +546,8 @@ input:invalid {
 .time-done {
   color: grey;
 }
+
+.task-title {
+  display: flex;
+  align-items: center;
+}
