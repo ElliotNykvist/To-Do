@@ -1,6 +1,6 @@
 # To-Do-App
 
-To-Do website made as a assignment form the The Odin Project
+To-Do website made as a assignment for The Odin Project
 
 
 # Description
