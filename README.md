@@ -1,4 +1,4 @@
-# To-Do-App
+# To-Do
 
 To-Do website made as a assignment for The Odin Project
 
